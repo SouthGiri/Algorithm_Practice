@@ -1,4 +1,4 @@
-![image](https://github.com/SouthGiri/Algorithm_Practice/assets/114569746/2063a2c6-6213-49f2-bf57-ae60c2bbe41b)# [Silver IV] 수 찾기 - 1920 
+# [Silver IV] 수 찾기 - 1920 
 
 [문제 링크](https://www.acmicpc.net/problem/1920) 
 
