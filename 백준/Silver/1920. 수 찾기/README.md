@@ -1,4 +1,4 @@
-# [Silver IV] 수 찾기 - 1920 
+![image](https://github.com/SouthGiri/Algorithm_Practice/assets/114569746/2063a2c6-6213-49f2-bf57-ae60c2bbe41b)# [Silver IV] 수 찾기 - 1920 
 
 [문제 링크](https://www.acmicpc.net/problem/1920) 
 
@@ -26,3 +26,4 @@
 
  <p>M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0을 출력한다.</p>
 
+![image](https://github.com/SouthGiri/Algorithm_Practice/assets/114569746/ff88c50b-e3ec-4e91-86c3-a927f2b4830e)
