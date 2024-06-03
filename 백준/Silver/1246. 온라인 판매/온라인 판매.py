@@ -11,18 +11,11 @@ p.sort()
 ans = 0
 cnt = 0
 
-if n >= m:
-    for i in range(m):
-        value = p[i] * (m-i)
-        if value > ans:
-            ans = value
-            cnt = p[i]
-else:
-    p = p[(m-n):]
-    for i in range(n):
-        value = p[i] * (n-i)
-        if value > ans:
-            ans = value
-            cnt = p[i]
+for i in range(m):
+    egg = min(m-i, n)
+
+    if ans < egg * p[i]:
+        ans = egg * p[i]
+        cnt = p[i]
 
 print(cnt, ans)
