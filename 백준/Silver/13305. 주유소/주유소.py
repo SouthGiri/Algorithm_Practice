@@ -3,11 +3,12 @@ dist = list(map(int, input().split()))
 cost = list(map(int, input().split()))
 
 ans = 0
-cost = cost[:-1]
-while len(cost) > 0:
-    stop = cost.index(min(cost))
-    ans += cost[stop] * sum(dist[stop:])
-    cost = cost[:stop]
-    dist = dist[:stop]
+min_cost = cost[0]
+
+for i in range(N-1):
+    if cost[i] < min_cost:
+        min_cost = cost[i]
+    
+    ans += (min_cost * dist[i])
 
 print(ans)
