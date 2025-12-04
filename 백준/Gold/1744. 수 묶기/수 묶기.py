@@ -2,33 +2,32 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-data = [int(input()) for _ in range(N)]
-data.sort()
-i = 0
-ans = 0
-while i < N-1:
-    if data[i] < 0:
-        if data[i+1] < 0:
-            ans += data[i]*data[i+1]
-            i += 2
-        elif data[i+1] == 0:
-            i += 2
-        else:
-            ans += data[i]
-            i += 1
-    elif data[i] == 0:
-        i += 1
-    else:
-        if (N-i) % 2 == 1:
-            ans += data[i]
-            i += 1
-        while i < N:
-            if data[i] != 1 and data[i+1] != 1:
-                ans += data[i] * data[i+1]
-            else:
-                ans += data[i] + data[i+1]
-            i += 2
+plus = []
+minus = []
 
-if i == N-1:
-    ans += data[i]
+ans = 0
+for i in range(N):
+    num = int(input())
+    if num > 1:
+        plus.append(num)
+    elif num <= 0:
+        minus.append(num)
+    else:
+        ans += num
+
+plus.sort(reverse=True)
+minus.sort()
+
+for i in range(0, len(plus), 2):
+    if i+1 < len(plus):
+        ans += (plus[i] * plus[i+1])
+    else:
+        ans += plus[i]
+
+for i in range(0, len(minus), 2):
+    if i+1 < len(minus):
+        ans += (minus[i] * minus[i+1])
+    else:
+        ans += minus[i]
+
 print(ans)
