@@ -1,0 +1,13 @@
+-- 코드를 입력하세요
+SELECT
+      BOOK_ID
+    , AUTHOR_NAME
+    , LEFT(PUBLISHED_DATE, 10) AS PUBLISHED_DATE
+FROM
+    BOOK INNER JOIN AUTHOR
+WHERE
+        CATEGORY = '경제'
+    AND BOOK.author_id = AUTHOR.author_id
+ORDER BY
+    PUBLISHED_DATE
+;
