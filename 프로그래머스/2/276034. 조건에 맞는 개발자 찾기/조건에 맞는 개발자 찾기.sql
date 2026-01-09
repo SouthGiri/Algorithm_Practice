@@ -1,0 +1,17 @@
+SELECT
+      DEV.ID
+    , DEV.EMAIL
+    , DEV.FIRST_NAME
+    , DEV.LAST_NAME
+FROM
+    DEVELOPERS DEV
+WHERE
+    EXISTS (
+        SELECT 1
+        FROM SKILLCODES SKI
+        WHERE SKI.NAME IN ('Python', 'C#')
+        AND (DEV.SKILL_CODE & SKI.CODE) > 0
+    )
+ORDER BY
+    ID
+;
