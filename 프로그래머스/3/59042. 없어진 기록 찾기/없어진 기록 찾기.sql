@@ -1,0 +1,12 @@
+SELECT  ANIMAL_ID
+        , NAME
+  FROM  ANIMAL_OUTS AS O
+ WHERE  1=1
+        AND NOT EXISTS (
+        SELECT 1
+        FROM ANIMAL_INS AS I
+        WHERE I.ANIMAL_ID = O.ANIMAL_ID
+        )
+ ORDER
+    BY  ANIMAL_ID
+;
