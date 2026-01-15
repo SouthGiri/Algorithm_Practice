@@ -1,0 +1,10 @@
+SELECT    II.ITEM_ID
+        , II.ITEM_NAME
+        , II.RARITY
+  FROM  ITEM_INFO AS II
+ WHERE  NOT EXISTS (SELECT 1
+                    FROM ITEM_TREE AS IT
+                    WHERE II.ITEM_ID = IT.PARENT_ITEM_ID)
+ ORDER
+    BY  ITEM_ID DESC
+;
