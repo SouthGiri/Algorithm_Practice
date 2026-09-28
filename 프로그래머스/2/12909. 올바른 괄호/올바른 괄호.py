@@ -2,15 +2,13 @@ def solution(s):
     answer = True
     
     stack = []
-    
-    for letter in s:
-        if letter == '(':
-            stack.append(letter)
+    for _s in s:
+        if _s == '(':
+            stack.append(_s)
+        elif stack:
+            stack.pop()
         else:
-            if not stack:
-                return False
-            else:
-                stack.pop()
+            return False
     
     if stack:
         return False
