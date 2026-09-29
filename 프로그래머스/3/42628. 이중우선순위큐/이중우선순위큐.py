@@ -4,7 +4,7 @@ def solution(operations):
     
     
     max_h, min_h = [], []
-    cnt = Counter()
+    max_cnt, min_cnt = Counter(), Counter()
     
     for oper in operations:
         
@@ -13,28 +13,28 @@ def solution(operations):
         if op == 'I':
             heappush(max_h, -num)
             heappush(min_h, num)
-            cnt[num] += 1
         
         elif op == 'D' and num == 1:
-            while max_h and cnt[-max_h[0]] == 0:
-                cnt[-heappop(max_h)] -= 1
+            while max_h and max_cnt[-max_h[0]] > 0:
+                max_cnt[-heappop(max_h)] -= 1
             
             if max_h:
-                cnt[-heappop(max_h)] -= 1
+                val = -heappop(max_h)
+                min_cnt[val] += 1
         
         else:
-            while min_h and cnt[min_h[0]] == 0:
-                cnt[heappop(min_h)] -= 1
+            while min_h and min_cnt[min_h[0]] > 0:
+                min_cnt[heappop(min_h)] -= 1
             
             if min_h:
-                cnt[heappop(min_h)] -= 1
-        
+                val = heappop(min_h)
+                max_cnt[val] += 1
     
-    while max_h and cnt[-max_h[0]] == 0:
-        heappop(max_h)
+    while max_h and max_cnt[-max_h[0]] > 0:
+        max_cnt[-heappop(max_h)] -= 1
     
-    while min_h and cnt[min_h[0]] == 0:
-        heappop(min_h)
+    while min_h and min_cnt[min_h[0]] > 0:
+        min_cnt[heappop(min_h)] -= 1
     
     if max_h and min_h:
         ans = [-max_h[0], min_h[0]]
