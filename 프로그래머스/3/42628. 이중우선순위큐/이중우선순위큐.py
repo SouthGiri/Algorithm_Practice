@@ -29,14 +29,13 @@ def solution(operations):
             if min_h:
                 val = heappop(min_h)
                 max_cnt[val] += 1
-        # print(max_h, min_h, cnt)
     
     while max_h and max_cnt[-max_h[0]] > 0:
         max_cnt[-heappop(max_h)] -= 1
-    # print(max_h, min_h, cnt)
+    
     while min_h and min_cnt[min_h[0]] > 0:
         min_cnt[heappop(min_h)] -= 1
-    # print(max_h, min_h, cnt)
+    
     if max_h and min_h:
         ans = [-max_h[0], min_h[0]]
     else:
