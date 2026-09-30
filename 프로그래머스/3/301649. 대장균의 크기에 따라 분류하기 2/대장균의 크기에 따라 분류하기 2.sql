@@ -1,11 +1,16 @@
-SELECT    ID
-        , CASE NTILE(4) OVER (ORDER BY SIZE_OF_COLONY DESC)
+WITH QUAR AS (
+    SELECT  ID,
+            NTILE(4) OVER (ORDER BY SIZE_OF_COLONY DESC) C
+      FROM  ECOLI_DATA
+)
+SELECT  ID,
+        CASE C
             WHEN 1 THEN 'CRITICAL'
             WHEN 2 THEN 'HIGH'
             WHEN 3 THEN 'MEDIUM'
             ELSE 'LOW'
-          END AS COLONY_NAME
-  FROM  ECOLI_DATA
+        END AS COLONY_NAME
+  FROM  QUAR
  ORDER
     BY  ID
 ;
