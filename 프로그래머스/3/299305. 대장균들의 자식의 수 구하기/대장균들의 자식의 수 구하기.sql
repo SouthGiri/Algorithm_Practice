@@ -1,11 +1,12 @@
-SELECT    e1.id
-        , IFNULL(
-            (SELECT  COUNT(*)
-               FROM   ecoli_data as e2
-              WHERE  e1.id = e2.parent_id
-              GROUP
-                 BY  parent_id), 0) AS CHILD_COUNT
-  FROM  ecoli_data as e1
+SELECT  ID,
+        COALESCE(C, 0) AS CHILD_COUNT
+  FROM  ECOLI_DATA E1
+        LEFT JOIN (
+            SELECT  PARENT_ID, COUNT(*) AS C
+              FROM  ECOLI_DATA
+             GROUP
+                BY  PARENT_ID
+        ) E2 ON E1.ID = E2.PARENT_ID
  ORDER
-    BY  id
+    BY  ID
 ;
