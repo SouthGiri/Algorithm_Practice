@@ -1,21 +1,15 @@
 def solution(people, limit):
-    from math import ceil
+    N = len(people)
+    pair = 0
     
-    answer = 0
-    small, big = [], []
+    people.sort()
     
-    for p in people:
-        (small if p <= limit//2 else big).append(p)
+    a, b = 0, N-1
     
-    small.sort(reverse=True)
-    big.sort()
+    while a < b:
+        if people[a] + people[b] <= limit:
+            a += 1
+            pair += 1
+        b -= 1
     
-    while small and big:
-        if small[-1] + big[-1] <= limit:
-            small.pop()
-        
-        big.pop()
-        answer += 1
-    
-    answer += (ceil(len(small) / 2) + len(big))
-    return answer
+    return N - pair
