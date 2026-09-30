@@ -1,17 +1,18 @@
-WITH fir_gen AS (
-    SELECT  id
-      FROM  ecoli_data
-     WHERE  parent_id IS NULL
-), sec_gen AS (
-    SELECT  e.id
-      FROM  fir_gen f JOIN
-            ecoli_data e ON
-            f.id = e.parent_id
-)
-SELECT  e.id
-  FROM  sec_gen s JOIN
-        ecoli_data e ON
-        s.id = e.parent_id
+SELECT  E1.ID
+  FROM  ECOLI_DATA E1
+ WHERE  EXISTS (
+            SELECT  1
+              FROM  ECOLI_DATA E2
+             WHERE  1=1
+                    AND E2.ID = E1.PARENT_ID
+                    AND EXISTS (
+                        SELECT  1
+                          FROM  ECOLI_DATA E3
+                         WHERE  1=1
+                                AND E3.PARENT_ID IS NULL
+                                AND E3.ID = E2.PARENT_ID
+             )
+        )
  ORDER
-    BY  id
+    BY  E1.ID
 ;
