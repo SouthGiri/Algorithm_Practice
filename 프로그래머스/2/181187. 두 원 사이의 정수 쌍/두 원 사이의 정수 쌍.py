@@ -1,14 +1,11 @@
 def solution(r1, r2):
+    from math import floor, ceil, sqrt
     
-    from math import ceil, floor, sqrt
+    ans = 0
     
-    answer = 0
-        
-    for i in range(1,r2+1):
-        if i  < r1:
-            answer += (floor(sqrt(r2*r2-i*i)) - ceil(sqrt(r1*r1-i*i)) + 1)
-        else:
-            answer += (floor(sqrt(r2*r2-i*i))+1)
+    for x in range(1, r2+1):
+        ans += floor(sqrt(r2**2 - x**2)) + 1
+        if r1 >= x:
+            ans -= ceil(sqrt(r1**2 - x**2))
     
-    answer *= 4
-    return answer
+    return ans*4
