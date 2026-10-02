@@ -1,29 +1,26 @@
-from collections import deque, defaultdict
-
-def is_diff_one(first, second):
-    res = 0
-    for idx in range(len(first)):
-        if first[idx] != second[idx]:
-            res += 1
-    return True if res == 1 else False
-
+from collections import deque
 
 def solution(begin, target, words):
     if target not in words:
         return 0
     
-    visited = {key : False for key in words}
+    words = [begin] + words
+    N = len(words)
+    visited = [-1] * N
+    t = words.index(target)
     
-    q = deque()
-    q.append((0, begin))
+    q = deque([0])
+    visited[0] = 0
     
     while q:
-        cost, now = q.popleft()
-        for nxt in words:
-            if not visited[nxt] and is_diff_one(now, nxt):
-                if nxt == target:
-                    answer = cost+1
-                q.append((cost+1, nxt))
-                visited[nxt] = True
+        now = q.popleft()
+        
+        for nxt in range(1, N):
+            if visited[nxt] == -1 and sum(a != b for a, b in zip(words[now], words[nxt])) == 1:
+                visited[nxt] = visited[now] + 1
+                q.append(nxt)
+                
+                if nxt == t:
+                    return visited[t]
     
-    return answer
+    return 0
