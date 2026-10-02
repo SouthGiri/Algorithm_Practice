@@ -9,7 +9,6 @@ def solution(n, computers):
             q = deque()
             q.append(i)
             visited[i] = True
-            print(i)
             
             while q:
                 node = q.popleft()
