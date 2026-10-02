@@ -1,42 +1,43 @@
-def solution(rectangle, characterX, characterY, itemX, itemY):
-    from collections import deque
-    
-    board = [[0] * 102 for _ in range(102)]
-    
-    for r in rectangle:
-        x1, y1, x2, y2 = map(lambda x : x*2, r)
+from collections import deque
 
-        for x, y in ((_x, _y) for _x in range(x1+1, x2) for _y in range(y1+1, y2)):
-            board[y][x] = 2
-        
-        for x, y in ((_x, _y) for _x in range(x1, x2+1) for _y in (y1, y2)):
-            if board[y][x] == 0:
-                board[y][x] = 1
-            
-        for x, y in ((_x, _y) for _x in (x1, x2) for _y in range(y1, y2+1)):
-            if board[y][x] == 0:
-                board[y][x] = 1
-                
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
+def solution(rectangle, characterX, characterY, itemX, itemY):
+    N = 101
+    rectangle = [(2 * a, 2 * b, 2 * c, 2 * d) for a, b, c, d in rectangle]
+    cx, cy = 2*characterX, 2*characterY
+    ix, iy = 2*itemX, 2*itemY
     
-    q = deque()
-    q.append((characterX*2, characterY*2))
-    visited = [[0] * 102 for _ in range(102)]
-    visited[characterY*2][characterX*2] = 1
+    graph = [[0] * (N) for _ in range(N)]
+    
+    def is_in(x, y):
+        return any(e < x < g and f < y < h for e,f,g,h in rectangle)
+
+    
+    for a,b,c,d in rectangle:
+        for x in range(a, c+1):
+            for y in (b, d):
+                if not is_in(x, y):
+                    graph[x][y] = 1
+        
+        for y in range(b, d+1):
+            for x in (a, c):
+                if not is_in(x, y):
+                    graph[x][y] = 1
+        
+    visited = [[-1] * N for _ in range(N)]
+    visited[cx][cy] = 0
+    q = deque([(cx, cy)])
     
     while q:
         x, y = q.popleft()
-        if x == itemX*2 and y == itemY*2:
-            answer = visited[y][x] // 2
-            break
         
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
+        if (x, y) == (ix, iy):
+            return visited[ix][iy] // 2
         
-            if board[ny][nx] == 1 and not visited[ny][nx]:
-                visited[ny][nx] = visited[y][x] + 1
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            nx, ny = x+dx, y+dy
+            
+            if 0 <= nx < N and 0 <= ny < N and graph[nx][ny] and visited[nx][ny] == -1:
                 q.append((nx, ny))
-    
-    return answer
+                visited[nx][ny] = visited[x][y] + 1
+
+    return 0
