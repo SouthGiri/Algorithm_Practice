@@ -1,30 +1,27 @@
-WITH truck_table AS (
-    SELECT  car_id,
-            daily_fee
-      FROM  car_rental_company_car
-     WHERE  car_type = '트럭'
-), discount_plan AS (
-    SELECT  LEFT(duration_type, INSTR(duration_type, '일') - 1) AS 'day',
-            100 - discount_rate AS 'weight'
+WITH H AS (
+    SELECT  DAILY_FEE,
+            HISTORY_ID,
+            DATEDIFF(END_DATE, START_DATE) + 1 AS DAY
+      FROM  CAR_RENTAL_COMPANY_CAR C
+            JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY R
+            ON C.CAR_ID = R.CAR_ID
+     WHERE  CAR_TYPE = '트럭'
+), D AS (
+    SELECT  LEFT(DURATION_TYPE, INSTR(DURATION_TYPE, '일') - 1) AS D_T,
+            100 - DISCOUNT_RATE AS RATE
       FROM  CAR_RENTAL_COMPANY_DISCOUNT_PLAN
-     WHERE  car_type = '트럭'
+     WHERE  CAR_TYPE = '트럭'
 )
-SELECT  history_id,
-        CAST(
-            CASE 
-                WHEN DATEDIFF(end_date, start_date)+1 >= 90
-                    THEN daily_fee * (SELECT weight FROM discount_plan WHERE day = 90) / 100
-                WHEN DATEDIFF(end_date, start_date)+1 >= 30
-                    THEN daily_fee * (SELECT weight FROM discount_plan WHERE day = 30) / 100
-                WHEN DATEDIFF(end_date, start_date)+1 >= 7
-                    THEN daily_fee * (SELECT weight FROM discount_plan WHERE day = 7) / 100
-                ELSE daily_fee
-            END AS UNSIGNED
-        ) * (DATEDIFF(end_date, start_date)+1) AS FEE
-  FROM  truck_table t JOIN
-        CAR_RENTAL_COMPANY_RENTAL_HISTORY r ON
-        t.car_id = r.car_id
+SELECT  HISTORY_ID,
+        CASE
+            WHEN DAY >= 90 THEN DAILY_FEE * DAY * (SELECT RATE FROM D WHERE D_T = 90) / 100
+            WHEN DAY >= 30 THEN DAILY_FEE * DAY * (SELECT RATE FROM D WHERE D_T = 30) / 100
+            WHEN DAY >= 7 THEN DAILY_FEE * DAY * (SELECT RATE FROM D WHERE D_T = 7) / 100
+            ELSE DAILY_FEE * DAY
+        END AS FEE
+  FROM  H
  ORDER
     BY  FEE DESC,
-        history_id DESC
+        HISTORY_ID DESC
 ;
+
