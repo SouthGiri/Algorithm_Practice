@@ -1,31 +1,24 @@
-from collections import deque
-
-visited = []
-
-def bfs(start, computers):
-    global visited
-    
-    q = deque()
-    q.append(start)
-    visited[start] = True
-    
-    while q:
-        now = q.popleft()
-        
-        for nxt, is_connected in enumerate(computers[now]):
-            if is_connected and not visited[nxt]:
-                q.append(nxt)
-                visited[nxt] = True
-    
-
 def solution(n, computers):
+    from collections import deque
+    
     answer = 0
-    global visited
     visited = [False] * n
     
-    for computer in range(n):
-        if not visited[computer]:
-            bfs(computer, computers)
+    for i in range(n):
+        if not visited[i]:
+            q = deque()
+            q.append(i)
+            visited[i] = True
+            print(i)
+            
+            while q:
+                node = q.popleft()
+                
+                for j, connected in enumerate(computers[node]):
+                    if not visited[j] and connected:
+                        q.append(j)
+                        visited[j] = True
+            
             answer += 1
-    
+            
     return answer
