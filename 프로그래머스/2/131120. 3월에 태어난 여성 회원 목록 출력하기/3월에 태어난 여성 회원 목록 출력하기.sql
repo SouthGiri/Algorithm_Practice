@@ -1,14 +1,11 @@
--- 코드를 입력하세요
-SELECT
-    member_id,
-    member_name,
-    gender,
-    LEFT(date_of_birth, 10) as date_of_birth
-FROM
-    member_profile
-WHERE
-        MID(date_of_birth, 6, 2) = 03 
-    AND gender = 'W'
-    AND TLNO IS NOT NULL
-ORDER BY
-    member_id
+SELECT  MEMBER_ID,
+        MEMBER_NAME,
+        GENDER,
+        DATE_OF_BIRTH
+  FROM  MEMBER_PROFILE
+ WHERE  MID(DATE_OF_BIRTH, 7, 1) = '3'
+        AND TLNO IS NOT NULL
+        AND GENDER = 'W'
+ ORDER
+    BY  MEMBER_ID
+;
