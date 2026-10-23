@@ -1,11 +1,15 @@
-SELECT  *
-  FROM  PLACES AS P1
- WHERE  EXISTS (
-        SELECT  1
-          FROM  PLACES AS P2
-         WHERE  P1.HOST_ID = P2.HOST_ID
-         GROUP
-            BY  HOST_ID
-        HAVING  COUNT(*) >= 2
-        )
+WITH HEAVY AS (
+    SELECT  HOST_ID
+      FROM  PLACES
+     GROUP
+        BY  HOST_ID
+    HAVING  COUNT(*) >= 2
+)
+SELECT  ID,
+        NAME,
+        P.HOST_ID
+  FROM  PLACES P JOIN HEAVY H
+        ON P.HOST_ID = H.HOST_ID
+ ORDER
+    BY  ID
 ;
