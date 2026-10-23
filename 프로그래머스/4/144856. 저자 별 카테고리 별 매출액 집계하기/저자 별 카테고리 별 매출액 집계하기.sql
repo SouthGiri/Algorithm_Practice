@@ -1,19 +1,15 @@
-SELECT  a.author_id,
-        a.author_name,
-        category,
-        SUM(_sum * price)
-  FROM  (SELECT book_id, SUM(sales) AS '_sum'
-         FROM book_sales
-         WHERE LEFT(sales_date, 7) = '2022-01'
-         GROUP BY book_id) AS s JOIN
-         book AS b ON
-         s.book_id = b.book_id JOIN
-         author as a ON
-         b.author_id = a.author_id
+SELECT  A.AUTHOR_ID,
+        AUTHOR_NAME,
+        CATEGORY,
+        SUM(SALES * PRICE) AS TOTAL_SALES
+  FROM  BOOK B JOIN BOOK_SALES BS
+        ON B.BOOK_ID = BS.BOOK_ID JOIN AUTHOR A
+        ON B.AUTHOR_ID = A.AUTHOR_ID
+ WHERE  LEFT(SALES_DATE, 7) = '2022-01'
  GROUP
-    BY  author_id,
-        category
+    BY  AUTHOR_ID,
+        CATEGORY
  ORDER
-    BY  author_id,
-        category DESC
+    BY  AUTHOR_ID,
+        CATEGORY DESC
 ;
